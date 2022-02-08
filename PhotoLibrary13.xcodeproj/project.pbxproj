@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		788A88B927B2574200341E6B /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788A88B827B2574200341E6B /* AlbumCell.swift */; };
+		788A88BB27B2A03400341E6B /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788A88BA27B2A03400341E6B /* TextCell.swift */; };
 		78F158F12796EDE300D81E81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F158F02796EDE300D81E81 /* AppDelegate.swift */; };
 		78F158FA2796EDE500D81E81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F158F92796EDE500D81E81 /* Assets.xcassets */; };
 		78F159052796F41100D81E81 /* PhotoLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F159042796F41100D81E81 /* PhotoLibraryView.swift */; };
@@ -17,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		788A88B827B2574200341E6B /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
+		788A88BA27B2A03400341E6B /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		78F158ED2796EDE300D81E81 /* PhotoLibrary13.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLibrary13.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F158F02796EDE300D81E81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78F158F92796EDE500D81E81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 			children = (
 				78F159042796F41100D81E81 /* PhotoLibraryView.swift */,
 				788A88B827B2574200341E6B /* AlbumCell.swift */,
+				788A88BA27B2A03400341E6B /* TextCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 				78F158F12796EDE300D81E81 /* AppDelegate.swift in Sources */,
 				788A88B927B2574200341E6B /* AlbumCell.swift in Sources */,
 				78F159212796FF1800D81E81 /* PhotoLibraryController.swift in Sources */,
+				788A88BB27B2A03400341E6B /* TextCell.swift in Sources */,
 				78F159052796F41100D81E81 /* PhotoLibraryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
