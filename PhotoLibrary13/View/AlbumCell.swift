@@ -20,14 +20,14 @@ class AlbumCell: UICollectionViewCell {
 
     let label: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(14)
+        label.font = .systemFont(ofSize: 14)
         label.textColor = .black
         return label
     }()
 
     let count: UILabel = {
         let label = UILabel()
-        label.font = label.font.withSize(14)
+        label.font = .systemFont(ofSize: 14)
         label.textColor = .gray
         return label
     }()
