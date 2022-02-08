@@ -16,17 +16,16 @@ class PhotoLibraryView: UIViewController {
 
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets (top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 60, height: 60)
+        layout.itemSize = CGSize(width: 170, height: 170)
 
         let myCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         myCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        myCollectionView.backgroundColor = .red
+        myCollectionView.backgroundColor = .white
 
         myCollectionView.dataSource = self
 
         view.addSubview(myCollectionView)
 
-        view.backgroundColor = .cyan
         navigationItem.leftBarButtonItem = addBarButton
         navigationItem.title = "Альбомы"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -37,8 +36,12 @@ class PhotoLibraryView: UIViewController {
 
 extension PhotoLibraryView: UICollectionViewDataSource {
 
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return albums.count
+    }
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return albums[section].count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
