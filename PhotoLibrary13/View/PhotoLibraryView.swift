@@ -14,11 +14,57 @@ class PhotoLibraryView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets (top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 140, height: 170)
-        layout.scrollDirection = .horizontal
+            let layout = UICollectionViewCompositionalLayout { (sectionIndex, _ ) -> NSCollectionLayoutSection? in
+                let section = self.albums[sectionIndex]
+                switch section.type {
+                    case .singleRow:
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
 
+                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+                        let group = NSCollectionLayoutGroup.horizontal(
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180)),
+                            subitems: [item]
+                        )
+
+                        let section = NSCollectionLayoutSection(group: group)
+                        section.contentInsets = .init(top: 20, leading: 5, bottom: 5, trailing: 5)
+                        section.orthogonalScrollingBehavior = .groupPaging
+                        return section
+
+                    case .doubleRow:
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
+
+                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+                        let group = NSCollectionLayoutGroup.vertical(
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(360)),
+                            subitems: [item, item]
+                        )
+
+                        let section = NSCollectionLayoutSection(group: group)
+                        section.contentInsets = .init(top: 20, leading: 5, bottom: 5, trailing: 5)
+                        section.orthogonalScrollingBehavior = .groupPaging
+                        return section
+
+                    case .text:
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
+
+                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+                        let group = NSCollectionLayoutGroup.vertical(
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180)),
+                            subitems: [item]
+                        )
+
+                        let section = NSCollectionLayoutSection(group: group)
+                        section.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
+                        return section
+                }
+            }
 
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: "cell")
