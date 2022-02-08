@@ -15,23 +15,22 @@ class PhotoLibraryView: UIViewController {
         super.viewDidLoad()
 
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets (top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 170, height: 170)
+        layout.sectionInset = UIEdgeInsets (top: 10, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 140, height: 170)
+        layout.scrollDirection = .horizontal
 
-        let myCollectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-        myCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        myCollectionView.backgroundColor = .white
 
-        myCollectionView.dataSource = self
+        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: "cell")
 
-        view.addSubview(myCollectionView)
+        collectionView.dataSource = self
+
+        view.addSubview(collectionView)
 
         navigationItem.leftBarButtonItem = addBarButton
         navigationItem.title = "Альбомы"
         navigationController?.navigationBar.prefersLargeTitles = true
-
     }
-
 }
 
 extension PhotoLibraryView: UICollectionViewDataSource {
@@ -41,13 +40,13 @@ extension PhotoLibraryView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return albums[section].count
+        return albums[section].albums.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let myCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        myCell.backgroundColor = UIColor.blue
-        return myCell
+        let album = albums[indexPath.section].albums[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AlbumCell
+        cell.configure(with: album)
+        return cell
     }
-
 }
