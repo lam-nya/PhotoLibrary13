@@ -18,56 +18,56 @@ class PhotoLibraryView: UIViewController {
                 let section = self.albums[sectionIndex]
                 switch section.type {
                     case .singleRow:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180))
 
                         let item = NSCollectionLayoutItem(layoutSize: itemSize)
                         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
                         let group = NSCollectionLayoutGroup.horizontal(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180)),
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180)),
                             subitems: [item]
                         )
 
                         let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 20, leading: 5, bottom: 5, trailing: 5)
+                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
                         section.orthogonalScrollingBehavior = .groupPaging
                         return section
 
                     case .doubleRow:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180))
 
                         let item = NSCollectionLayoutItem(layoutSize: itemSize)
                         item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
                         let group = NSCollectionLayoutGroup.vertical(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(360)),
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(360)),
                             subitems: [item, item]
                         )
 
                         let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 20, leading: 5, bottom: 5, trailing: 5)
+                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
                         section.orthogonalScrollingBehavior = .groupPaging
                         return section
 
                     case .text:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180))
+                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width - 20), heightDimension: .absolute(40))
 
                         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
                         let group = NSCollectionLayoutGroup.vertical(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(140), heightDimension: .absolute(180)),
+                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width - 20), heightDimension: .absolute(40)),
                             subitems: [item]
                         )
 
                         let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
+                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
                         return section
                 }
             }
 
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: AlbumCell.identifier)
+        collectionView.register(TextCell.self, forCellWithReuseIdentifier: TextCell.identifier)
 
         collectionView.dataSource = self
 
@@ -91,8 +91,16 @@ extension PhotoLibraryView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let album = albums[indexPath.section].albums[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! AlbumCell
-        cell.configure(with: album)
-        return cell
+        switch album.type {
+            case .preview:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.identifier, for: indexPath) as! AlbumCell
+                cell.configure(with: album)
+                return cell
+            case .text:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextCell.identifier, for: indexPath) as! TextCell
+                cell.configure(with: album)
+                return cell
+        }
+
     }
 }
