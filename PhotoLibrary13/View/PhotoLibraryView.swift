@@ -14,7 +14,7 @@ class PhotoLibraryView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-            let layout = UICollectionViewCompositionalLayout { (sectionIndex, _ ) -> NSCollectionLayoutSection? in
+            let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment ) -> NSCollectionLayoutSection? in
                 let section = self.albums[sectionIndex]
                 switch section.type {
                     case .singleRow:
@@ -50,17 +50,9 @@ class PhotoLibraryView: UIViewController {
                         return section
 
                     case .text:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width - 20), heightDimension: .absolute(40))
+                        let section = NSCollectionLayoutSection.list(using: .init(appearance: .plain), layoutEnvironment: layoutEnvironment)
+                        section.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0)
 
-                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-                        let group = NSCollectionLayoutGroup.vertical(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width - 20), heightDimension: .absolute(40)),
-                            subitems: [item]
-                        )
-
-                        let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
                         return section
                 }
             }
