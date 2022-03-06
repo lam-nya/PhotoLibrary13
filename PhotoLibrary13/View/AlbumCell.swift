@@ -8,7 +8,8 @@
 import UIKit
 
 class AlbumCell: UICollectionViewCell {
-    static let identifier = "cellAlbum"
+
+    static let id = "cellAlbum"
 
     let image: UIImageView = {
         let image = UIImageView()
@@ -41,7 +42,7 @@ class AlbumCell: UICollectionViewCell {
         contentView.addSubview(stackView)
 
         NSLayoutConstraint.activate([
-            image.heightAnchor.constraint(equalToConstant: 140),
+            image.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -50,7 +51,7 @@ class AlbumCell: UICollectionViewCell {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("")
+        fatalError("required init?(coder: NSCoder)")
     }
 
     func configure (with cell: Album) {

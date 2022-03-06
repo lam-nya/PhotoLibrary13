@@ -14,52 +14,24 @@ class PhotoLibraryView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-            let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment ) -> NSCollectionLayoutSection? in
-                let section = self.albums[sectionIndex]
-                switch section.type {
-                    case .singleRow:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180))
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment ) -> NSCollectionLayoutSection? in
+            let section = self.albums[sectionIndex]
+            switch section.type {
+                case .singleRow:
+                    return self.createSingleRowCell()
 
-                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+                case .doubleRow:
+                    return self.createDoubleRowCell()
 
-                        let group = NSCollectionLayoutGroup.horizontal(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180)),
-                            subitems: [item]
-                        )
-
-                        let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
-                        section.orthogonalScrollingBehavior = .groupPaging
-                        return section
-
-                    case .doubleRow:
-                        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(180))
-
-                        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-
-                        let group = NSCollectionLayoutGroup.vertical(
-                            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute((self.view.frame.width - 20) / 2), heightDimension: .absolute(360)),
-                            subitems: [item, item]
-                        )
-
-                        let section = NSCollectionLayoutSection(group: group)
-                        section.contentInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
-                        section.orthogonalScrollingBehavior = .groupPaging
-                        return section
-
-                    case .text:
-                        let section = NSCollectionLayoutSection.list(using: .init(appearance: .plain), layoutEnvironment: layoutEnvironment)
-                        section.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0)
-
-                        return section
-                }
+                case .text:
+                    return self.createTextCell(layoutEnvironment: layoutEnvironment)
             }
+        }
 
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: AlbumCell.identifier)
-        collectionView.register(TextCell.self, forCellWithReuseIdentifier: TextCell.identifier)
+        collectionView.register(AlbumCell.self, forCellWithReuseIdentifier: AlbumCell.id)
+        collectionView.register(TextCell.self, forCellWithReuseIdentifier: TextCell.id)
+        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.id)
 
         collectionView.dataSource = self
 
@@ -68,6 +40,61 @@ class PhotoLibraryView: UIViewController {
         navigationItem.leftBarButtonItem = addBarButton
         navigationItem.title = "Альбомы"
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+
+    func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+        let layoutSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width - 32), heightDimension: .absolute(40))
+        //.absolute(360), heightDimension: .absolute(40))
+        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutSectionHeaderSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
+        return layoutSectionHeader
+    }
+
+    func createTextCell(layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        let section = NSCollectionLayoutSection.list(using: .init(appearance: .plain), layoutEnvironment: layoutEnvironment)
+        section.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        section.boundarySupplementaryItems = [createSectionHeader()]
+
+        return section
+    }
+
+    func createDoubleRowCell() -> NSCollectionLayoutSection {
+        let imageWidth = (self.view.frame.width - 22) / 2
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(imageWidth), heightDimension: .absolute(imageWidth))
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(imageWidth), heightDimension: .absolute(imageWidth * 2 + 10)),
+            subitems: [item, item]
+        )
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.boundarySupplementaryItems = [createSectionHeader()]
+
+        return section
+    }
+
+    func createSingleRowCell() -> NSCollectionLayoutSection {
+        let imageWidth = (self.view.frame.width - 22) / 2
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(imageWidth), heightDimension: .absolute(imageWidth))
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(imageWidth), heightDimension: .absolute(imageWidth + 10)),
+            subitems: [item]
+        )
+
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = .init(top: 0, leading: 10, bottom: 0, trailing: 10)
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.boundarySupplementaryItems = [createSectionHeader()]
+
+        return section
     }
 }
 
@@ -85,14 +112,21 @@ extension PhotoLibraryView: UICollectionViewDataSource {
         let album = albums[indexPath.section].albums[indexPath.row]
         switch album.type {
             case .preview:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.identifier, for: indexPath) as! AlbumCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumCell.id, for: indexPath) as! AlbumCell
                 cell.configure(with: album)
                 return cell
             case .text:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextCell.identifier, for: indexPath) as! TextCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextCell.id, for: indexPath) as! TextCell
                 cell.configure(with: album)
                 return cell
         }
-
     }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let section = albums[indexPath.section]
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.id, for: indexPath) as! SectionHeader
+        header.configure(with: section)
+        return header
+    }
+
 }

@@ -8,7 +8,8 @@
 import UIKit
 
 class TextCell: UICollectionViewListCell {
-    static let identifier = "cellText"
+
+    static let id = "cellText"
 
     func configure (with cell: Album) {
         var cellConfig = self.defaultContentConfiguration()

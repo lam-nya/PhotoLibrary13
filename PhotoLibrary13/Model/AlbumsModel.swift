@@ -49,7 +49,7 @@ extension PhotoLibraryView {
                  Album(image: "skyscraper", label: "Skyscrapers", count: 10, type: .preview),
                  Album(image: "flower", label: "Flowers", count: 99, type: .preview)
                 ]),
-            AlbumSection(type: .text, label: "Mediafiles by typee", button: nil, albums:
+            AlbumSection(type: .text, label: "Mediafiles by type", button: nil, albums:
                 [Album(image: "video", label: "Video", count: 214, type: .text),
                  Album(image: "person.crop.rectangle", label: "Selphie", count: 100, type: .text),
                  Album(image: "livephoto", label: "Live Photos", count: 10, type: .text),
